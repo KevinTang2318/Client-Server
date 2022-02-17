@@ -1,0 +1,52 @@
+Name: Kaiwen Tang
+Student ID: 1575518
+Date: November 24th, 2021
+
+File Breakdown:
+    client.cpp: this file contains codes fufilling all functionalities related to client
+    client.h: header file for client.cpp
+    server.cpp: this file contains codes fufilling all functionalities related to server
+    server.h: header file for server.cpp
+    tands.c: the provided codes containing Tands() and Sleep() functions
+    tands.h: header file for tands.c, used to let the functions in tands.c be able to be called within other files
+    common.cpp: this file contains commonly used functions by both server and client, such as getCurrentTime() and functions related to writing logs.
+    common.h: header file for common.cpp
+
+    man-page/: folder storing all man page related files
+            client.man: source code for client's man-page
+            client.pdf: pdf version of man page for client
+            server.man: source code for server's man-page
+            server.pdf: pdf version of man page for server
+
+Assumptions:
+    For server, we assume that it will write the summary to the log file when the 30s of wait time expires. We believe it is reasonable to do in this way because
+    the server can conclude how many clients it has served when itself stops working. In this sense, if the user use ctrl+c to end server process before timeout, 
+    the log might not be written properly.
+    For client, it needs the server to be running first in order to function normally.
+
+Summary of approach:
+    For the client, the approach is straightforward. It takes input from stdin and process each one. If it's a sleep instruction, the client sleeps directly. If it's a transaction
+    instruction, it sends to the server. All instructional messages sent are in the format of "<client name> <instructions>". Then, the client will wait for serve to send back a finished message. 
+    The client will calculate how many transaction instructions it reseives in total. When it finishes transmitting, it will send one last message in the format of "<client name> <total number of transactions passed>". 
+    Server will take this information as a signal of ending transmission between this client.
+
+    For the server, to achieve communicating with multiple clients, it uses the select() method. The server takes information from all the clients in a first-come first-serve mode. It will
+    parse the client name and instruction from the message, and do the instruction accordingly. After finishing a transaction, the server will send the corresponding client a message in the 
+    format of "D<number in the original transaction>". The client will parse this information. Server can also tell whether a client has finished sending all its transactions by capturing the 
+    unique end message from client. When all clients finish transmitting and server is exited due to timeout, it will write the summary to its log file.
+
+How to compile and run the program:
+    To compile the program:
+        1. Go into the program folder: client-server/
+        2. Use "make" to compile both client and server executables
+        3. If you want to compile them separately, use "make server" to compile server program and "make client" to compile client program
+        3. If you need to clean all compiled files, use "make clean"
+
+    To run the program:
+        1. Run the server first by using "./server <port number>". Port number should be between 5000 and 64000;
+        2. Then run each client by using "./client <port number> <server_ip>". Here the ip address has to be the server's, and it has to be accessible from the client's machine.
+        3. Both server and client will exit automatically when all the inputs has been read.
+        4. You can use a file to redirect input into the client
+
+    To generate the pdf man pages for both client and server:
+        Under the client-server/ director, use the command "make man" to generate the two pdf files.

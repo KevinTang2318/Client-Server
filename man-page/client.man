@@ -1,0 +1,31 @@
+.TH client 1 "24 November 2020"
+.SH NAME
+client - Starts the client program and transmit input to the server
+.SH SYNOPSIS
+\fBclient\fP
+\fIport_number\fP
+\fIserver_ip\fP
+.SH DESCRIPTION
+\fBclient\fP starts a client program that trnsmit messages to the server program located at \fIserver_ip\fP,
+using the given \fIport_number\fP. The client will read input from stdin and process them initially. Two kinds of inputs 
+are allowed: T<n> which indicates a transaction and S<n> which indicates sleep action. Client will pass all transactions
+to the server and sleep when sleep instruction is given. It also maintains a log accordingly.
+.SH FILES
+.TP
+\fCclient.cpp\fR
+this file contains codes fufilling all functionalities related to client
+.TP
+\fCclient.h\fR
+header file for client.cpp
+.TP
+\fCtands.c\fR
+the provided codes containing Tands() and Sleep() functions
+.TP
+\fCtands.h\fR
+header file for tands.c, used to let the functions in tands.c be able to be called within other files
+.TP
+\fCcommon.cpp\fR
+this file contains commonly used functions by both server and client, such as getCurrentTime() and functions related to writing logs
+.TP
+\fCcommon.h\fR
+header file for common.cpp

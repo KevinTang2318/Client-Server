@@ -1,0 +1,30 @@
+.TH server 1 "24 November 2020"
+.SH NAME
+server - Starts the server program and wait for incoming client communication
+.SH SYNOPSIS
+\fBserver\fP
+\fIport_number\fP
+.SH DESCRIPTION
+\fBserver\fP starts a server serves on the given \fIport\fP. It will then wait
+for clients to establish connection. When a client connects to this server, the server 
+will start processing transactions and log information accordingly. The server will self-exit
+when there's no new message coming in in 30 seconds.
+.SH FILES
+.TP
+\fCserver.cpp\fR
+this file contains codes fufilling all functionalities related to server
+.TP
+\fCserver.h\fR
+header file for server.cpp
+.TP
+\fCtands.c\fR
+the provided codes containing Tands() and Sleep() functions
+.TP
+\fCtands.h\fR
+header file for tands.c, used to let the functions in tands.c be able to be called within other files
+.TP
+\fCcommon.cpp\fR
+this file contains commonly used functions by both server and client, such as getCurrentTime() and functions related to writing logs
+.TP
+\fCcommon.h\fR
+header file for common.cpp
